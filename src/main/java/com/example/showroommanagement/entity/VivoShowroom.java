@@ -4,25 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 @Entity
-@Table(name ="employee")
-public class Employee {
+@Table(name = "showroom")
+public class VivoShowroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    @Column(name="salary")
-    private Double salary;
-    @Column(name="Address")
+    @Column(name = "address")
     private String address;
-
-    @ManyToOne()
-    @JoinColumn (name="salesdepartment_id")
-    private SalesDepartment salesDepartment;
+    @Column(name = "contact_number")
+    private String contactNumber;
 
 }

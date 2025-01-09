@@ -45,8 +45,8 @@ public class EmployeeService {
         if (employee. getAddress() != null) {
             existingEmployee.setAddress(employee. getAddress());
         }
-        if (employee. getDepartment() != null) {
-            existingEmployee.setDepartment(employee. getDepartment());
+        if (employee.getSalesDepartment() != null) {
+            existingEmployee.setSalesDepartment(employee.getSalesDepartment());
         }
         return this.employeeRepository .save(existingEmployee);
     }
