@@ -11,32 +11,34 @@ import java.util.Map;
 @RequestMapping("/api/v1/showroom")
 public class VivoShowroomController {
     private final VivoShowroomService vivoShowroomService;
-    public VivoShowroomController(VivoShowroomService vivoShowroomService){
+
+    public VivoShowroomController(VivoShowroomService vivoShowroomService) {
         this.vivoShowroomService = vivoShowroomService;
     }
 
     @PostMapping("/create")
-    public VivoShowroom createShowroom(@RequestBody final VivoShowroom VivoShowroom){
+    public VivoShowroom createShowroom(@RequestBody final VivoShowroom VivoShowroom) {
         return this.vivoShowroomService.createShowroom(VivoShowroom);
     }
 
     @GetMapping("/retrieve/{id}")
-    public VivoShowroom retrieveShowroomById(@PathVariable final Integer id)
-    {
+    public VivoShowroom retrieveShowroomById(@PathVariable final Integer id) {
         return this.vivoShowroomService.retrieveShowroomById(id);
     }
+
     @GetMapping("/retrieve")
-    public List<VivoShowroom> retrieveShowroom()
-    {
+    public List<VivoShowroom> retrieveShowroom() {
         return this.vivoShowroomService.retrieveShowroom();
     }
+
     @PutMapping("/update/{id}")
     public Integer updateShowroom(@PathVariable final Integer id, @RequestBody final VivoShowroom VivoShowroom) {
-        return this.vivoShowroomService.updateShowroomById(VivoShowroom,id).getId();
+        return this.vivoShowroomService.updateShowroomById(VivoShowroom, id).getId();
     }
-   @DeleteMapping("/remove/{id}")
-   public Map<String, String> removeShowroomById(@PathVariable("id") final Integer id) {
-       return this .vivoShowroomService.removeSchoolById(id);
-   }
+
+    @DeleteMapping("/remove/{id}")
+    public Map<String, String> removeShowroomById(@PathVariable("id") final Integer id) {
+        return this.vivoShowroomService.removeShowroomById(id);
+    }
 
 }

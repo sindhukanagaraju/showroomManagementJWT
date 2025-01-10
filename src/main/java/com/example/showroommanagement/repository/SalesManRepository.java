@@ -1,9 +1,9 @@
 package com.example.showroommanagement.repository;
 
-import com.example.showroommanagement.entity.Employee;
+import com.example.showroommanagement.entity.SalesMan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
+public interface SalesManRepository extends JpaRepository<SalesMan, Integer> {
 }

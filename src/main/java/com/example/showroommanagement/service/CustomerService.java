@@ -40,8 +40,8 @@ public class CustomerService {
         if (customer.getName() != null) {
             existingCustomer.setName(customer.getName());
         }
-        if (customer. getEmployee() != null) {
-            existingCustomer.setEmployee(customer. getEmployee());
+        if (customer.getSalesMan() != null) {
+            existingCustomer.setSalesMan(customer.getSalesMan());
         }
         return this.customerRepository.save(existingCustomer);
     }

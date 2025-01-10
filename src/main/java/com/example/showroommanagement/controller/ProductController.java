@@ -28,7 +28,7 @@ public class ProductController {
 
     @GetMapping("/retrieve")
     public List<Product> retrieveProduct() {
-        return this.productService.retrieveCustomer();
+        return this.productService.retrieveProduct();
     }
 
     @PutMapping("/update/{id}")
@@ -38,7 +38,7 @@ public class ProductController {
 
     @DeleteMapping("/remove/{id}")
     public Map<String, String> removeProductById(@PathVariable("id") final Integer id) {
-        return this.productService. removeProductById(id);
+        return this.productService.removeProductById(id);
     }
 
 

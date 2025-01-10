@@ -1,8 +1,6 @@
 package com.example.showroommanagement.service;
 
-import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.entity.Product;
-import com.example.showroommanagement.repository.CustomerRepository;
 import com.example.showroommanagement.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product createProduct(final Product product ) {
+    public Product createProduct(final Product product) {
         return this.productRepository.save(product);
     }
 
@@ -28,12 +26,12 @@ public class ProductService {
 
     }
 
-    public List<Product> retrieveCustomer() {
+    public List<Product> retrieveProduct() {
         return this.productRepository.findAll();
     }
 
     @Transactional
-    public Product updateProductById( final Product product, Integer id) {
+    public Product updateProductById(final Product product, Integer id) {
         final Product existingProduct = this.productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Data not found"));
         if (product.getId() != null) {
             existingProduct.setId(product.getId());
@@ -41,8 +39,8 @@ public class ProductService {
         if (product.getModel() != null) {
             existingProduct.setModel(product.getModel());
         }
-        if (product. getEmployee() != null) {
-            existingProduct.setEmployee(product. getEmployee());
+        if (product.getSalesMan() != null) {
+            existingProduct.setSalesMan(product.getSalesMan());
         }
         if (product.getPrice() != null) {
             existingProduct.setPrice(product.getPrice());
@@ -50,8 +48,8 @@ public class ProductService {
         if (product.getColour() != null) {
             existingProduct.setColour(product.getColour());
         }
-        if (product. getCustomer() != null) {
-            existingProduct.setCustomer(product. getCustomer());
+        if (product.getCustomer() != null) {
+            existingProduct.setCustomer(product.getCustomer());
         }
         return this.productRepository.save(existingProduct);
     }

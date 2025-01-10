@@ -32,25 +32,28 @@ public class VivoShowroomService {
     }
 
     @Transactional
-    public VivoShowroom updateShowroomById(final VivoShowroom VivoShowroom, Integer id) {
+    public VivoShowroom updateShowroomById(final VivoShowroom vivoShowroom, Integer id) {
         final VivoShowroom existingVivoShowroom = this.vivoShowroomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Data not found"));
-        if (VivoShowroom.getName() != null) {
-            existingVivoShowroom.setName(VivoShowroom.getName());
+        if (vivoShowroom.getName() != null) {
+            existingVivoShowroom.setName(vivoShowroom.getName());
         }
-        if (VivoShowroom.getId() != null) {
-            existingVivoShowroom.setId(VivoShowroom.getId());
+        if (vivoShowroom.getId() != null) {
+            existingVivoShowroom.setId(vivoShowroom.getId());
         }
-        if (VivoShowroom.getAddress() != null){
-            existingVivoShowroom.setAddress(VivoShowroom.getAddress());
+        if (vivoShowroom.getAddress() != null) {
+            existingVivoShowroom.setAddress(vivoShowroom.getAddress());
         }
-        if (VivoShowroom.getContactNumber() != null){
-            existingVivoShowroom.setContactNumber(VivoShowroom.getContactNumber());
+        if (vivoShowroom.getContactNumber() != null) {
+            existingVivoShowroom.setContactNumber(vivoShowroom.getContactNumber());
+        }
+        if (vivoShowroom.getAdmin() != null) {
+            existingVivoShowroom.setAdmin(vivoShowroom.getAdmin());
         }
         return this.vivoShowroomRepository.save(existingVivoShowroom);
     }
 
     @Transactional
-    public Map<String, String> removeSchoolById(final Integer id) {
+    public Map<String, String> removeShowroomById(final Integer id) {
         this.vivoShowroomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("showroom not found with id: " + id));
         this.vivoShowroomRepository.deleteById(id);
         return (Map.of("message", "showroom deleted successfully."));

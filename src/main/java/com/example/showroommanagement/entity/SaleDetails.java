@@ -9,19 +9,19 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "Sales")
-public class Sales {
+@Table(name = "Sale_details")
+public class SaleDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name="transaction")
-    private Date transaction;
+    @Column(name = "date")
+    private Date salesDate;
     @ManyToOne()
-    @JoinColumn(name ="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
     @ManyToOne()
-    @JoinColumn(name ="customer_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
 }

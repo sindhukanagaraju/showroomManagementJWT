@@ -17,7 +17,7 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public Customer createCustomer(@RequestBody final  Customer  customer) {
+    public Customer createCustomer(@RequestBody final Customer customer) {
         return this.customerService.createCustomer(customer);
     }
 
@@ -38,9 +38,8 @@ public class CustomerController {
 
     @DeleteMapping("/remove/{id}")
     public Map<String, String> removeCustomerById(@PathVariable("id") final Integer id) {
-        return this.customerService. removeCustomerById(id);
+        return this.customerService.removeCustomerById(id);
     }
-
 
 
 }
