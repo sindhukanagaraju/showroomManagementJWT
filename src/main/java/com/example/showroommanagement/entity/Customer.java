@@ -15,6 +15,8 @@ public class Customer {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "address")
+    private String address;
     @ManyToOne()
     @JoinColumn(name = "salesman_id")
     private SalesMan salesMan;

@@ -46,8 +46,8 @@ public class VivoShowroomService {
         if (vivoShowroom.getContactNumber() != null) {
             existingVivoShowroom.setContactNumber(vivoShowroom.getContactNumber());
         }
-        if (vivoShowroom.getAdmin() != null) {
-            existingVivoShowroom.setAdmin(vivoShowroom.getAdmin());
+        if (vivoShowroom.getManager() != null) {
+            existingVivoShowroom.setManager(vivoShowroom.getManager());
         }
         return this.vivoShowroomRepository.save(existingVivoShowroom);
     }

@@ -32,7 +32,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer updateCustomerById( final Customer customer, Integer id) {
+    public Customer updateCustomerById(final Customer customer, Integer id) {
         final Customer existingCustomer = this.customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Data not found"));
         if (customer.getId() != null) {
             existingCustomer.setId(customer.getId());
@@ -42,6 +42,9 @@ public class CustomerService {
         }
         if (customer.getSalesMan() != null) {
             existingCustomer.setSalesMan(customer.getSalesMan());
+        }
+        if (customer.getAddress() != null) {
+            existingCustomer.setAddress(customer.getAddress());
         }
         return this.customerRepository.save(existingCustomer);
     }

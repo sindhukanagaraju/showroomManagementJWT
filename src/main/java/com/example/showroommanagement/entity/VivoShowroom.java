@@ -20,6 +20,6 @@ public class VivoShowroom {
     @Column(name = "contact_number")
     private String contactNumber;
     @ManyToOne()
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+    @JoinColumn(name = "manager_id")
+    private Manager manager;
 }

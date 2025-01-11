@@ -48,9 +48,7 @@ public class ProductService {
         if (product.getColour() != null) {
             existingProduct.setColour(product.getColour());
         }
-        if (product.getCustomer() != null) {
-            existingProduct.setCustomer(product.getCustomer());
-        }
+
         return this.productRepository.save(existingProduct);
     }
 

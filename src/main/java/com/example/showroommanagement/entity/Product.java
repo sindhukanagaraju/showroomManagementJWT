@@ -24,7 +24,5 @@ public class Product {
     @JoinColumn(name = "salesman_id")
     private SalesMan salesMan;
 
-    @ManyToOne()
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+
 }
