@@ -1,10 +1,12 @@
 package com.example.showroommanagement.service;
 
+import com.example.showroommanagement.dto.SalesManDetailsDTO;
 import com.example.showroommanagement.entity.SalesMan;
 import com.example.showroommanagement.repository.SalesManRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -46,8 +48,8 @@ public class SalesManService {
         if (salesMan.getAddress() != null) {
             existingSalesMan.setAddress(salesMan.getAddress());
         }
-        if (salesMan.getVivoShowroom() != null) {
-            existingSalesMan.setVivoShowroom(salesMan.getVivoShowroom());
+        if (salesMan.getShowroom() != null) {
+            existingSalesMan.setShowroom(salesMan.getShowroom());
         }
         return this.salesManRepository.save(existingSalesMan);
     }
@@ -59,4 +61,21 @@ public class SalesManService {
         return (Map.of("message", "salesman deleted successfully."));
     }
 
+
+    public List<SalesManDetailsDTO>  retrieveSalesManDetails() {
+        List<SalesMan> retrieveSalesMan = this.salesManRepository.findAll();
+        List<SalesManDetailsDTO> salesManDetailsDTOS = new ArrayList<>();
+        for (SalesMan salesMan : retrieveSalesMan) {
+            SalesManDetailsDTO salesManDetailsDTO = new SalesManDetailsDTO();
+            salesManDetailsDTO.setSalesManName(salesMan.getName());
+            salesManDetailsDTO.setSalesManSalary(salesMan.getSalary());
+            salesManDetailsDTO.setManagerName(salesMan.getShowroom().getManager().getName());
+            salesManDetailsDTO.setShowroomName(salesMan.getShowroom().getName());
+            salesManDetailsDTO.setShowroomAddress(salesMan.getShowroom().getAddress());
+            salesManDetailsDTO.setManagerPhoneNumber(salesMan.getShowroom().getManager().getContactNumber());
+            salesManDetailsDTO.setShowroomPhoneNumber(salesMan.getShowroom().getContactNumber());
+            salesManDetailsDTOS.add(salesManDetailsDTO);
+        }
+        return salesManDetailsDTOS;
+    }
 }

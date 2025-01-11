@@ -23,6 +23,6 @@ public class SalesMan {
 
     @ManyToOne()
     @JoinColumn(name = "showroom_id")
-    private VivoShowroom vivoShowroom;
+    private Showroom showroom;
 
 }

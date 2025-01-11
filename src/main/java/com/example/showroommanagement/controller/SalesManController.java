@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.SalesManDetailsDTO;
 import com.example.showroommanagement.entity.SalesMan;
 import com.example.showroommanagement.service.SalesManService;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/employee")
+@RequestMapping("/api/v1/salesman")
 public class SalesManController {
 
     private final SalesManService salesManService;
@@ -40,6 +41,10 @@ public class SalesManController {
     @DeleteMapping("/remove/{id}")
     public Map<String, String> removeSalesManById(@PathVariable("id") final Integer id) {
         return this.salesManService.removeSalesManById(id);
+    }
+    @GetMapping("/salesmandetails")
+    public List <SalesManDetailsDTO> retrieveSalesmanDetails(){
+        return this.salesManService.retrieveSalesManDetails();
     }
 
 
