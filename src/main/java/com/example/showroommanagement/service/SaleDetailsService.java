@@ -1,10 +1,12 @@
 package com.example.showroommanagement.service;
 
+import com.example.showroommanagement.dto.SalesDetailsDTO;
 import com.example.showroommanagement.entity.SaleDetails;
 import com.example.showroommanagement.repository.SaleDetailsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -56,4 +58,22 @@ public class SaleDetailsService {
         return (Map.of("message", "saledatails deleted successfully."));
     }
 
+    @Transactional
+    public List<SalesDetailsDTO> retrieveSalesDetails() {
+        List<SaleDetails> retrieveSales = this.saleDetailsRepository.findAll();
+        List<SalesDetailsDTO> salesDetailsDTOS = new ArrayList<>();
+        for (SaleDetails salesDetails : retrieveSales) {
+            SalesDetailsDTO salesDetailsDTO = new SalesDetailsDTO();
+            salesDetailsDTO.setShowroomName(salesDetails.getProduct().getSalesMan().getShowroom().getName());
+            salesDetailsDTO.setProductModel(salesDetails.getProduct().getModel());
+            salesDetailsDTO.setProductprice(salesDetails.getProduct().getPrice());
+            salesDetailsDTO.setSalesmanName(salesDetails.getProduct().getSalesMan().getName());
+            salesDetailsDTO.setSalesDate(salesDetails.getSalesDate());
+            salesDetailsDTO.setSalesManagerName(salesDetails.getProduct().getSalesMan().getShowroom().getManager().getName());
+            salesDetailsDTO.setCustomerName(salesDetails.getCustomer().getName());
+            salesDetailsDTO.setCustomerAddress(salesDetails.getCustomer().getAddress());
+            salesDetailsDTOS.add(salesDetailsDTO);
+        }
+        return salesDetailsDTOS;
+    }
 }

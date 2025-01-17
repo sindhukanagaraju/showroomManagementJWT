@@ -1,10 +1,12 @@
 package com.example.showroommanagement.service;
 
+import com.example.showroommanagement.dto.CustomerDetailsDTO;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -56,5 +58,20 @@ public class CustomerService {
         return (Map.of("message", "Customer deleted successfully."));
     }
 
+    @Transactional
+    public List<CustomerDetailsDTO> retrieveCustomerDetails() {
+        List<Customer> retrieveCustomer = this.customerRepository.findAll();
+        List<CustomerDetailsDTO> customerDetailsDTOS = new ArrayList<>();
+        for (Customer customer : retrieveCustomer) {
+            CustomerDetailsDTO customerDetailsDTO = new CustomerDetailsDTO();
+            customerDetailsDTO.setCustomerName(customer.getName());
+            customerDetailsDTO.setCustomerAddress(customer.getAddress());
+            customerDetailsDTO.setSalesManName(customer.getSalesMan().getName());
+            customerDetailsDTO.setShowroomName(customer.getSalesMan().getShowroom().getName());
+            customerDetailsDTO.setShowroomContactNumber(customer.getSalesMan().getShowroom().getContactNumber());
+            customerDetailsDTOS.add(customerDetailsDTO);
+        }
+        return customerDetailsDTOS;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.SalesDetailsDTO;
 import com.example.showroommanagement.entity.SaleDetails;
 import com.example.showroommanagement.service.SaleDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,9 @@ public class SaleDetailsController {
         return this.saleDetailsService.removeSalesById(id);
     }
 
+    @GetMapping("/salesdetails")
+    public List<SalesDetailsDTO> retrieveSalesDetails() {
+        return this.saleDetailsService.retrieveSalesDetails();
+    }
 
 }

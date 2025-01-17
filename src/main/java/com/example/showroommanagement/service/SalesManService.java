@@ -62,7 +62,8 @@ public class SalesManService {
     }
 
 
-    public List<SalesManDetailsDTO>  retrieveSalesManDetails() {
+    @Transactional
+    public List<SalesManDetailsDTO> retrieveSalesManDetails() {
         List<SalesMan> retrieveSalesMan = this.salesManRepository.findAll();
         List<SalesManDetailsDTO> salesManDetailsDTOS = new ArrayList<>();
         for (SalesMan salesMan : retrieveSalesMan) {

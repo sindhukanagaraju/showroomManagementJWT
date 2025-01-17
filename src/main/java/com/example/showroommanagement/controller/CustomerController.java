@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.CustomerDetailsDTO;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,11 @@ public class CustomerController {
     @DeleteMapping("/remove/{id}")
     public Map<String, String> removeCustomerById(@PathVariable("id") final Integer id) {
         return this.customerService.removeCustomerById(id);
+    }
+
+    @GetMapping("/customerdetails")
+    public List<CustomerDetailsDTO> retrieveCustomerDetails() {
+        return this.customerService.retrieveCustomerDetails();
     }
 
 

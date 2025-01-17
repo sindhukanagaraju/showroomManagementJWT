@@ -42,8 +42,9 @@ public class SalesManController {
     public Map<String, String> removeSalesManById(@PathVariable("id") final Integer id) {
         return this.salesManService.removeSalesManById(id);
     }
+
     @GetMapping("/salesmandetails")
-    public List <SalesManDetailsDTO> retrieveSalesmanDetails(){
+    public List<SalesManDetailsDTO> retrieveSalesmanDetails() {
         return this.salesManService.retrieveSalesManDetails();
     }
 
