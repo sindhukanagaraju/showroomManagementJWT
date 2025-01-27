@@ -28,6 +28,7 @@ public class CustomerService {
         responseDTO.setData(this.customerRepository.save(customer));
         return responseDTO;
     }
+
     public ResponseDTO retrieveDepartmentById(final Integer id) {
         if (this.customerRepository.existsById(id)) {
             this.customerRepository.findById(id)
@@ -41,6 +42,7 @@ public class CustomerService {
             throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
     }
+
     public ResponseDTO retrieveCustomer() {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.RETRIEVE);
@@ -69,21 +71,22 @@ public class CustomerService {
         responseDTO.setData(customerRepository.save(existingCustomer));
         return responseDTO;
     }
-        @Transactional
 
-        public ResponseDTO removeCustomerById ( final Integer id){
-            if (id == null) {
-                throw new BadRequestServiceAlertException(Constant.DATA_NULL);
-            }
-            if (this.customerRepository.existsById(id)) {
-                final ResponseDTO responseDTO = new ResponseDTO();
-                responseDTO.setMessage(Constant.DELETE);
-                responseDTO.setStatusCode(HttpStatus.OK.value());
-                responseDTO.setData(Constant.REMOVE);
-                return responseDTO;
-            } else {
-                throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-            }
+    @Transactional
+
+    public ResponseDTO removeCustomerById(final Integer id) {
+        if (id == null) {
+            throw new BadRequestServiceAlertException(Constant.DATA_NULL);
+        }
+        if (this.customerRepository.existsById(id)) {
+            final ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setMessage(Constant.DELETE);
+            responseDTO.setStatusCode(HttpStatus.OK.value());
+            responseDTO.setData(Constant.REMOVE);
+            return responseDTO;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
+        }
     }
 
     @Transactional
@@ -105,7 +108,6 @@ public class CustomerService {
         responseDTO.setData(customerDetailsDTOS);
         return responseDTO;
     }
-
 
 
 }

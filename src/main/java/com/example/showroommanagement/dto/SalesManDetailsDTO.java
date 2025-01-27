@@ -10,7 +10,7 @@ public class SalesManDetailsDTO {
     private Double salesManSalary;
     private String showroomName;
     private String showroomAddress;
-    private String showroomPhoneNumber ;
+    private String showroomPhoneNumber;
     private String managerName;
     private String managerPhoneNumber;
 

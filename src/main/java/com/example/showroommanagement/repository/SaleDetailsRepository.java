@@ -3,11 +3,10 @@ package com.example.showroommanagement.repository;
 import com.example.showroommanagement.entity.SaleDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface SaleDetailsRepository extends JpaRepository<SaleDetails,Integer> {
+public interface SaleDetailsRepository extends JpaRepository<SaleDetails, Integer> {
     @Query("SELECT sdetail FROM SaleDetails sdetail " +
             "JOIN sdetail.product p " +
             "JOIN p.salesMan slman " +
@@ -18,7 +17,6 @@ public interface SaleDetailsRepository extends JpaRepository<SaleDetails,Integer
             "JOIN sman.showroom sroom " +
             "WHERE shrm.name = :showroomName " +
             "AND p.model = :productModel")
-    List<SaleDetails> retrieveSalesDetails(@Param("showroomName") String showroomName,
-                                           @Param("productModel") String productModel);
+    List<SaleDetails> retrieveSalesDetails(String showroomName, String productModel);
 
 }

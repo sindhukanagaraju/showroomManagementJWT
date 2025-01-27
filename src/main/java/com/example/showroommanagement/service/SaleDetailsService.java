@@ -10,7 +10,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SaleDetailsService {
@@ -49,6 +50,7 @@ public class SaleDetailsService {
         responseDTO.setData(this.saleDetailsRepository.findAll());
         return responseDTO;
     }
+
     @Transactional
     public ResponseDTO updateSalesById(final SaleDetails salesDetails, Integer id) {
         final SaleDetails existingSalesDetails = this.saleDetailsRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
@@ -64,7 +66,7 @@ public class SaleDetailsService {
         if (salesDetails.getCustomer() != null) {
             existingSalesDetails.setCustomer(salesDetails.getCustomer());
         }
-       final ResponseDTO responseDTO = new ResponseDTO();
+        final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
         responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.saleDetailsRepository.save(existingSalesDetails));
@@ -108,7 +110,7 @@ public class SaleDetailsService {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.RETRIEVE);
         responseDTO.setStatusCode(HttpStatus.OK.value());
-        responseDTO.setData( salesDetailsDTOS);
+        responseDTO.setData(salesDetailsDTOS);
         return responseDTO;
 
     }

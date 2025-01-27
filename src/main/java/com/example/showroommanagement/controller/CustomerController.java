@@ -1,13 +1,9 @@
 package com.example.showroommanagement.controller;
 
-import com.example.showroommanagement.dto.CustomerDetailsDTO;
 import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/customer")

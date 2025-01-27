@@ -5,9 +5,6 @@ import com.example.showroommanagement.entity.Showroom;
 import com.example.showroommanagement.service.ShowroomService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/v1/showroom")
 public class ShowroomController {

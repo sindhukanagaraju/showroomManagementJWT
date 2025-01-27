@@ -1,13 +1,9 @@
 package com.example.showroommanagement.controller;
 
 import com.example.showroommanagement.dto.ResponseDTO;
-import com.example.showroommanagement.dto.SalesDetailsDTO;
 import com.example.showroommanagement.entity.SaleDetails;
 import com.example.showroommanagement.service.SaleDetailsService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/sales")
@@ -48,7 +44,7 @@ public class SaleDetailsController {
 
     @GetMapping("/salesdetails")
     public ResponseDTO retrieveSalesDetails(@RequestParam final String showroomName, @RequestParam final String productModel) {
-        return this.saleDetailsService.retrieveSalesDetails(showroomName,productModel);
+        return this.saleDetailsService.retrieveSalesDetails(showroomName, productModel);
     }
 
 

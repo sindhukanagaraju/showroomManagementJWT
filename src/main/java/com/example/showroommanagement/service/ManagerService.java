@@ -27,15 +27,14 @@ public class ManagerService {
     }
 
     public ResponseDTO retrieveManagerById(final Integer id) {
-        if(this.managerRepository.existsById(id))
-        { this.managerRepository.findById(id);
+        if (this.managerRepository.existsById(id)) {
+            this.managerRepository.findById(id);
             final ResponseDTO responseDTO = new ResponseDTO();
             responseDTO.setStatusCode(HttpStatus.OK.value());
             responseDTO.setMessage(Constant.RETRIEVE);
             responseDTO.setData(this.managerRepository.findById(id));
             return responseDTO;
-        }
-         else {
+        } else {
             throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
     }
