@@ -1,6 +1,7 @@
 package com.example.showroommanagement.controller;
 
 import com.example.showroommanagement.dto.CustomerDetailsDTO;
+import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
@@ -18,32 +19,32 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public Customer createCustomer(@RequestBody final Customer customer) {
+    public ResponseDTO createCustomer(@RequestBody final Customer customer) {
         return this.customerService.createCustomer(customer);
     }
 
     @GetMapping("/retrieve/{id}")
-    public Customer retrieveCustomerById(@PathVariable final Integer id) {
+    public ResponseDTO retrieveCustomerById(@PathVariable final Integer id) {
         return this.customerService.retrieveDepartmentById(id);
     }
 
     @GetMapping("/retrieve")
-    public List<Customer> retrieveCustomer() {
+    public ResponseDTO retrieveCustomer() {
         return this.customerService.retrieveCustomer();
     }
 
     @PutMapping("/update/{id}")
-    public Customer updateCustomerById(@PathVariable final Integer id, @RequestBody final Customer customer) {
+    public ResponseDTO updateCustomerById(@PathVariable final Integer id, @RequestBody final Customer customer) {
         return this.customerService.updateCustomerById(customer, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    public Map<String, String> removeCustomerById(@PathVariable("id") final Integer id) {
+    public ResponseDTO removeCustomerById(@PathVariable("id") final Integer id) {
         return this.customerService.removeCustomerById(id);
     }
 
     @GetMapping("/customerdetails")
-    public List<CustomerDetailsDTO> retrieveCustomerDetails() {
+    public ResponseDTO retrieveCustomerDetails() {
         return this.customerService.retrieveCustomerDetails();
     }
 

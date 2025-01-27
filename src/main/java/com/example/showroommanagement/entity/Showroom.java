@@ -19,6 +19,8 @@ public class Showroom {
     private String address;
     @Column(name = "contact_number")
     private String contactNumber;
+    @Column(name = "brand")
+    private String brand;
     @ManyToOne()
     @JoinColumn(name = "manager_id")
     private Manager manager;

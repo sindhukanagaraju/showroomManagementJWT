@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.dto.SalesDetailsDTO;
 import com.example.showroommanagement.entity.SaleDetails;
 import com.example.showroommanagement.service.SaleDetailsService;
@@ -20,33 +21,35 @@ public class SaleDetailsController {
     }
 
     @PostMapping("/create")
-    public SaleDetails createSales(@RequestBody final SaleDetails salesDetails) {
+    public ResponseDTO createSales(@RequestBody final SaleDetails salesDetails) {
         return this.saleDetailsService.createSales(salesDetails);
     }
 
     @GetMapping("/retrieve/{id}")
-    public SaleDetails retrieveSalesById(@PathVariable final Integer id) {
+    public ResponseDTO retrieveSalesById(@PathVariable final Integer id) {
         return this.saleDetailsService.retrieveSalesById(id);
     }
 
     @GetMapping("/retrieve")
-    public List<SaleDetails> retrieveSales() {
+    public ResponseDTO retrieveSales() {
         return this.saleDetailsService.retrieveSales();
     }
 
     @PutMapping("/update/{id}")
-    public SaleDetails updateSalesById(@PathVariable final Integer id, @RequestBody final SaleDetails salesDetails) {
+    public ResponseDTO updateSalesById(@PathVariable final Integer id, @RequestBody final SaleDetails salesDetails) {
         return this.saleDetailsService.updateSalesById(salesDetails, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    public Map<String, String> removeSalesById(@PathVariable("id") final Integer id) {
+    public ResponseDTO removeSalesById(@PathVariable("id") final Integer id) {
         return this.saleDetailsService.removeSalesById(id);
     }
 
+
     @GetMapping("/salesdetails")
-    public List<SalesDetailsDTO> retrieveSalesDetails() {
-        return this.saleDetailsService.retrieveSalesDetails();
+    public ResponseDTO retrieveSalesDetails(@RequestParam final String showroomName, @RequestParam final String productModel) {
+        return this.saleDetailsService.retrieveSalesDetails(showroomName,productModel);
     }
+
 
 }

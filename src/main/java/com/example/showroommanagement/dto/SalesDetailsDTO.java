@@ -8,6 +8,7 @@ import java.util.Date;
 @Setter
 public class SalesDetailsDTO {
     private String showroomName;
+    private String showroomBrand;
     private String productModel;
     private Double productprice;
     private String salesmanName;

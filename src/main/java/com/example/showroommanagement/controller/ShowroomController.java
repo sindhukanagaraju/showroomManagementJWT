@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.entity.Showroom;
 import com.example.showroommanagement.service.ShowroomService;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +18,27 @@ public class ShowroomController {
     }
 
     @PostMapping("/create")
-    public Showroom createShowroom(@RequestBody final Showroom Showroom) {
+    public ResponseDTO createShowroom(@RequestBody final Showroom Showroom) {
         return this.showroomService.createShowroom(Showroom);
     }
 
     @GetMapping("/retrieve/{id}")
-    public Showroom retrieveShowroomById(@PathVariable final Integer id) {
+    public ResponseDTO retrieveShowroomById(@PathVariable final Integer id) {
         return this.showroomService.retrieveShowroomById(id);
     }
 
     @GetMapping("/retrieve")
-    public List<Showroom> retrieveShowroom() {
+    public ResponseDTO retrieveShowroom() {
         return this.showroomService.retrieveShowroom();
     }
 
     @PutMapping("/update/{id}")
-    public Integer updateShowroom(@PathVariable final Integer id, @RequestBody final Showroom Showroom) {
-        return this.showroomService.updateShowroomById(Showroom, id).getId();
+    public ResponseDTO updateShowroom(@PathVariable final Integer id, @RequestBody final Showroom Showroom) {
+        return this.showroomService.updateShowroomById(Showroom, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    public Map<String, String> removeShowroomById(@PathVariable("id") final Integer id) {
+    public ResponseDTO removeShowroomById(@PathVariable("id") final Integer id) {
         return this.showroomService.removeShowroomById(id);
     }
 

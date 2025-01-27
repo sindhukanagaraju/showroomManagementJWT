@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.dto.SalesManDetailsDTO;
 import com.example.showroommanagement.entity.SalesMan;
 import com.example.showroommanagement.service.SalesManService;
@@ -19,27 +20,27 @@ public class SalesManController {
     }
 
     @PostMapping("/create")
-    public SalesMan createSalesMan(@RequestBody final SalesMan salesMan) {
+    public ResponseDTO createSalesMan(@RequestBody final SalesMan salesMan) {
         return this.salesManService.createSalesMan(salesMan);
     }
 
     @GetMapping("/retrieve/{id}")
-    public SalesMan retrieveSalesManById(@PathVariable final Integer id) {
+    public ResponseDTO retrieveSalesManById(@PathVariable final Integer id) {
         return this.salesManService.retrieveSalesManById(id);
     }
 
     @GetMapping("/retrieve")
-    public List<SalesMan> retrieveSalesMan() {
+    public ResponseDTO retrieveSalesMan() {
         return this.salesManService.retrieveSalesMan();
     }
 
     @PutMapping("/update/{id}")
-    public SalesMan updateSalesManById(@PathVariable final Integer id, @RequestBody final SalesMan salesMan) {
+    public ResponseDTO updateSalesManById(@PathVariable final Integer id, @RequestBody final SalesMan salesMan) {
         return this.salesManService.updateSalesManById(salesMan, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    public Map<String, String> removeSalesManById(@PathVariable("id") final Integer id) {
+    public ResponseDTO removeSalesManById(@PathVariable("id") final Integer id) {
         return this.salesManService.removeSalesManById(id);
     }
 

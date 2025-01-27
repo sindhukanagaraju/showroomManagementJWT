@@ -1,5 +1,6 @@
 package com.example.showroommanagement.controller;
 
+import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.entity.Manager;
 import com.example.showroommanagement.service.ManagerService;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +18,27 @@ public class ManagerController {
     }
 
     @PostMapping("/create")
-    public Manager createManager(@RequestBody final Manager manager) {
+    public ResponseDTO createManager(@RequestBody final Manager manager) {
         return this.managerService.createManager(manager);
     }
 
     @GetMapping("/retrieve/{id}")
-    public Manager retrieveManagerById(@PathVariable final Integer id) {
+    public ResponseDTO retrieveManagerById(@PathVariable final Integer id) {
         return this.managerService.retrieveManagerById(id);
     }
 
     @GetMapping("/retrieve")
-    public List<Manager> retrieveManager() {
+    public ResponseDTO retrieveManager() {
         return this.managerService.retrieveManager();
     }
 
     @PutMapping("/update/{id}")
-    public Manager updateManagerById(@PathVariable final Integer id, @RequestBody final Manager manager) {
+    public ResponseDTO updateManagerById(@PathVariable final Integer id, @RequestBody final Manager manager) {
         return this.managerService.updateManagerById(manager, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    public Map<String, String> removeManagerById(@PathVariable("id") final Integer id) {
+    public ResponseDTO removeManagerById(@PathVariable("id") final Integer id) {
         return this.managerService.removeManagerById(id);
     }
 
