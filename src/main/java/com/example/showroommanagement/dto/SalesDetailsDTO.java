@@ -11,7 +11,7 @@ public class SalesDetailsDTO {
     private String showroomName;
     private String showroomBrand;
     private String productModel;
-    private Double productprice;
+    private Double productPrice;
     private String salesmanName;
     private String salesManagerName;
     private String customerName;

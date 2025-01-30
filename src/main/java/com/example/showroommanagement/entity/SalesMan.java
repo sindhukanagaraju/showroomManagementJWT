@@ -12,12 +12,16 @@ import lombok.Setter;
 public class SalesMan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "salary")
     private Double salary;
+
     @Column(name = "Address")
     private String address;
 

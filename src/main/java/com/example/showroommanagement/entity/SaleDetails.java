@@ -13,13 +13,17 @@ import java.util.Date;
 public class SaleDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "date")
     private Date salesDate;
+
     @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
+
     @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;

@@ -1,9 +1,14 @@
 package com.example.showroommanagement.controller;
 
 import com.example.showroommanagement.dto.ResponseDTO;
+import com.example.showroommanagement.dto.SalesDetailsDTO;
 import com.example.showroommanagement.entity.SaleDetails;
 import com.example.showroommanagement.service.SaleDetailsService;
+import com.example.showroommanagement.util.Constant;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/sales")
@@ -18,34 +23,32 @@ public class SaleDetailsController {
 
     @PostMapping("/create")
     public ResponseDTO createSales(@RequestBody final SaleDetails salesDetails) {
-        return this.saleDetailsService.createSales(salesDetails);
+        return new ResponseDTO(HttpStatus.OK.value(), this.saleDetailsService.createSales(salesDetails), Constant.CREATE);
+
     }
 
     @GetMapping("/retrieve/{id}")
     public ResponseDTO retrieveSalesById(@PathVariable final Integer id) {
-        return this.saleDetailsService.retrieveSalesById(id);
+        return new ResponseDTO(HttpStatus.OK.value(), this.saleDetailsService.retrieveSalesById(id), Constant.RETRIEVE);
     }
 
     @GetMapping("/retrieve")
     public ResponseDTO retrieveSales() {
-        return this.saleDetailsService.retrieveSales();
+        return new ResponseDTO(HttpStatus.OK.value(), this.saleDetailsService.retrieveSales(), Constant.RETRIEVE);
     }
 
     @PutMapping("/update/{id}")
     public ResponseDTO updateSalesById(@PathVariable final Integer id, @RequestBody final SaleDetails salesDetails) {
-        return this.saleDetailsService.updateSalesById(salesDetails, id);
+        return new ResponseDTO(HttpStatus.OK.value(), this.saleDetailsService.updateSalesById(salesDetails, id), Constant.UPDATE);
     }
 
     @DeleteMapping("/remove/{id}")
     public ResponseDTO removeSalesById(@PathVariable("id") final Integer id) {
-        return this.saleDetailsService.removeSalesById(id);
+        return new ResponseDTO(HttpStatus.OK.value(), this.saleDetailsService.removeSalesById(id), Constant.REMOVE);
     }
-
 
     @GetMapping("/salesdetails")
-    public ResponseDTO retrieveSalesDetails(@RequestParam final String showroomName, @RequestParam final String productModel) {
+    public List<SalesDetailsDTO> retrieveSalesDetails(@RequestParam final String showroomName, @RequestParam final String productModel) {
         return this.saleDetailsService.retrieveSalesDetails(showroomName, productModel);
     }
-
-
 }

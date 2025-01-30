@@ -2,6 +2,7 @@ package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.dto.ResponseDTO;
 import com.example.showroommanagement.dto.SalesManDetailsDTO;
+import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.entity.SalesMan;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.SalesManRepository;
@@ -23,37 +24,21 @@ public class SalesManService {
     }
 
     @Transactional
-    public ResponseDTO createSalesMan(final SalesMan salesman) {
-        final ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage(Constant.CREATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
-        responseDTO.setData(this.salesManRepository.save(salesman));
-        return responseDTO;
+    public SalesMan createSalesMan(final SalesMan salesMan) {
+        return this.salesManRepository.save(salesMan);
     }
 
-    public ResponseDTO retrieveSalesManById(final Integer id) {
-        if (this.salesManRepository.existsById(id)) {
-            this.salesManRepository.findById(id);
-            final ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setMessage(Constant.RETRIEVE);
-            responseDTO.setStatusCode(HttpStatus.OK.value());
-            responseDTO.setData(this.salesManRepository.findById(id));
-            return responseDTO;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public SalesMan retrieveSalesManById(final Integer id) {
+        return this.salesManRepository.findById(id).orElseThrow(()->new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
     }
 
-    public ResponseDTO retrieveSalesMan() {
-        final ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage(Constant.RETRIEVE);
-        responseDTO.setStatusCode(HttpStatus.OK.value());
-        responseDTO.setData(this.salesManRepository.findAll());
-        return responseDTO;
+    public List<SalesMan> retrieveSalesMan() {
+        return this.salesManRepository.findAll();
+
     }
 
     @Transactional
-    public ResponseDTO updateSalesManById(final SalesMan salesMan, Integer id) {
+    public  SalesMan updateSalesManById(final SalesMan salesMan, Integer id) {
         final SalesMan existingSalesMan = this.salesManRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         if (salesMan.getId() != null) {
             existingSalesMan.setId(salesMan.getId());
@@ -71,29 +56,18 @@ public class SalesManService {
             existingSalesMan.setShowroom(salesMan.getShowroom());
         }
 
-        final ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.OK.value());
-        responseDTO.setData(this.salesManRepository.save(existingSalesMan));
-        return responseDTO;
+        return this.salesManRepository.save(existingSalesMan);
 
     }
 
     @Transactional
-    public ResponseDTO removeSalesManById(final Integer id) {
+    public SalesMan removeSalesManById(final Integer id) {
         if (id == null) {
             throw new BadRequestServiceAlertException(Constant.DATA_NULL);
         }
-        if (this.salesManRepository.existsById(id)) {
-            this.salesManRepository.deleteById(id);
-            final ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setMessage(Constant.DELETE);
-            responseDTO.setStatusCode(HttpStatus.OK.value());
-            responseDTO.setData(Constant.REMOVE);
-            return responseDTO;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+        SalesMan salesMan = this.salesManRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.salesManRepository.deleteById(id);
+        return salesMan;
     }
 
 

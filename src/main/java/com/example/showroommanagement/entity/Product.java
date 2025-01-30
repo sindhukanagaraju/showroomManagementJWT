@@ -11,12 +11,16 @@ import lombok.Setter;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "model")
     private String model;
+
     @Column(name = "price")
     private Double price;
+
     @Column(name = "colour")
     private String colour;
 
