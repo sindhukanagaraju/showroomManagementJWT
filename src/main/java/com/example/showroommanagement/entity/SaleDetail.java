@@ -1,16 +1,20 @@
 package com.example.showroommanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name = "Sale_details")
-public class SaleDetails {
+@Table(name = "Sale_detail")
+public class SaleDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 

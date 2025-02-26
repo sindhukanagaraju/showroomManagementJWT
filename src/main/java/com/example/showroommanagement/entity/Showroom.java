@@ -1,9 +1,13 @@
 package com.example.showroommanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -24,10 +28,7 @@ public class Showroom {
     @Column(name = "contact_number")
     private String contactNumber;
 
-    @Column(name = "brand")
-    private String brand;
-
-    @ManyToOne()
-    @JoinColumn(name = "manager_id")
-    private Manager manager;
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 }

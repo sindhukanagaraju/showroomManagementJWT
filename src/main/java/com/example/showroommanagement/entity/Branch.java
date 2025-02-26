@@ -6,30 +6,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
+@Getter
 @Entity
-@Table(name = "customer")
-public class Customer {
+@Table(name = "branch")
+public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "address")
-    private String address;
+    @Column(name = "branch")
+    private String branch;
 
     @ManyToOne()
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    @ManyToOne()
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "showroom_id")
+    private Showroom showroom;
 }

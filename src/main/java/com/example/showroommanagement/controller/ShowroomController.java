@@ -8,39 +8,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/showroom")
+@RequestMapping("/api/v1")
 public class ShowroomController {
     private final ShowroomService showroomService;
 
-    public ShowroomController(ShowroomService showroomService) {
+    public ShowroomController(final ShowroomService showroomService) {
         this.showroomService = showroomService;
     }
 
-    @PostMapping("/create")
-    public ResponseDTO createShowroom(@RequestBody final Showroom Showroom) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.showroomService.createShowroom(Showroom), Constant.CREATE);
+    @PostMapping("/showroom")
+    public ResponseDTO createShowroom(@RequestBody final Showroom showroom) {
+
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.CREATE, this.showroomService.createShowroom(showroom));
     }
 
-    @GetMapping("/retrieve/{id}")
+
+    @GetMapping("/showroom/{id}")
     public ResponseDTO retrieveShowroomById(@PathVariable final Integer id) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.showroomService.retrieveShowroomById(id), Constant.RETRIEVE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.showroomService.retrieveShowroomById(id));
 
     }
 
-    @GetMapping("/retrieve")
+    @GetMapping("/showroom/retrieve")
     public ResponseDTO retrieveShowroom() {
-        return new ResponseDTO(HttpStatus.OK.value(), this.showroomService.retrieveShowroom(), Constant.RETRIEVE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.showroomService.retrieveShowroom());
     }
 
+    @PatchMapping("/showroom/{id}")
+    public ResponseDTO patchById(@PathVariable Integer id, @RequestBody Showroom showroom) {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.UPDATE, this.showroomService.patchById(showroom, id));
+    }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/showroom/{id}")
     public ResponseDTO updateShowroom(@PathVariable final Integer id, @RequestBody final Showroom showroom) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.showroomService.updateShowroomById(showroom, id), Constant.UPDATE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.UPDATE, this.showroomService.updateShowroomById(showroom, id));
     }
 
-    @DeleteMapping("/remove/{id}")
-    public ResponseDTO removeShowroomById(@PathVariable("id") final Integer id) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.showroomService.removeShowroomById(id), Constant.REMOVE);
+    @DeleteMapping("/showroom/{id}")
+    public ResponseDTO removeShowroomById(@PathVariable final Integer id) {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.REMOVE, this.showroomService.removeShowroomById(id));
     }
 
 

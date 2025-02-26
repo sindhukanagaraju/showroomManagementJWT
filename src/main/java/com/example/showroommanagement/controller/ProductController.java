@@ -8,38 +8,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1")
 public class ProductController {
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(final ProductService productService) {
         this.productService = productService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/product")
     public ResponseDTO createProduct(@RequestBody final Product product) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.productService.createProduct(product), Constant.CREATE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.CREATE, this.productService.createProduct(product));
     }
 
-    @GetMapping("/retrieve/{id}")
+    @GetMapping("/product/{id}")
     public ResponseDTO retrieveProductById(@PathVariable final Integer id) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.productService.retrieveProductById(id), Constant.RETRIEVE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.productService.retrieveProductById(id));
     }
 
-    @GetMapping("/retrieve")
+    @GetMapping("/product/retrieve")
     public ResponseDTO retrieveProduct() {
-        return new ResponseDTO(HttpStatus.OK.value(), this.productService.retrieveProduct(), Constant.RETRIEVE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.productService.retrieveProduct());
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/product/{id}")
     public ResponseDTO updateProductById(@PathVariable final Integer id, @RequestBody final Product product) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.productService.updateProductById(product, id), Constant.UPDATE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.UPDATE, this.productService.updateProductById(product, id));
     }
 
-    @DeleteMapping("/remove/{id}")
-    public ResponseDTO removeProductById(@PathVariable("id") final Integer id) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.productService.removeProductById(id), Constant.REMOVE);
+    @DeleteMapping("/product/{id}")
+    public ResponseDTO removeProductById(@PathVariable final Integer id) {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.REMOVE, this.productService.removeProductById(id));
     }
-
 
 }

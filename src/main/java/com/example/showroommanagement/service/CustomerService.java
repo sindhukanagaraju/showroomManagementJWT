@@ -1,6 +1,6 @@
 package com.example.showroommanagement.service;
 
-import com.example.showroommanagement.dto.CustomerDetailsDTO;
+import com.example.showroommanagement.dto.CustomerDetailDTO;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.CustomerRepository;
@@ -16,10 +16,11 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(final CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public Customer createCustomer(final Customer customer) {
         return this.customerRepository.save(customer);
 
@@ -34,7 +35,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer updateCustomerById(final Customer customer, Integer id) {
+    public Customer updateCustomerById(final Customer customer, final Integer id) {
         final Customer existingCustomer = this.customerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         if (customer.getId() != null) {
             existingCustomer.setId(customer.getId());
@@ -42,50 +43,47 @@ public class CustomerService {
         if (customer.getName() != null) {
             existingCustomer.setName(customer.getName());
         }
-        if (customer.getSalesMan() != null) {
-            existingCustomer.setSalesMan(customer.getSalesMan());
+        if (customer.getEmployee() != null) {
+            existingCustomer.setEmployee(customer.getEmployee());
         }
         if (customer.getAddress() != null) {
             existingCustomer.setAddress(customer.getAddress());
         }
+        if (customer.getUser() != null) {
+            existingCustomer.setUser(customer.getUser());
+        }
         return this.customerRepository.save(existingCustomer);
     }
 
-    @Transactional
-    public Customer removeCustomerById(final Integer id) {
-        if (id == null) {
-            throw new BadRequestServiceAlertException(Constant.DATA_NULL);
+    public String removeCustomerById(final Integer id) {
+        if (this.customerRepository.existsById(id)) {
+            this.customerRepository.deleteById(id);
+            return Constant.DELETE;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
-        Customer customer = this.customerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        this.customerRepository.deleteById(id);
-        return customer;
     }
 
-
-    @Transactional
-    public List<CustomerDetailsDTO> retrieveCustomerDetails() {
+    public List<CustomerDetailDTO> retrieveCustomerDetail() {
         List<Customer> retrieveCustomer = this.customerRepository.findAll();
-        List<CustomerDetailsDTO> customerDetailsDTOS = new ArrayList<>();
+        List<CustomerDetailDTO> customerDetailDTOS = new ArrayList<>();
         for (Customer customer : retrieveCustomer) {
-            CustomerDetailsDTO customerDetailsDTO = new CustomerDetailsDTO();
-            customerDetailsDTO.setCustomerName(customer.getName());
-            customerDetailsDTO.setCustomerAddress(customer.getAddress());
-            customerDetailsDTO.setSalesManName(customer.getSalesMan().getName());
-            customerDetailsDTO.setShowroomName(customer.getSalesMan().getShowroom().getName());
-            customerDetailsDTO.setShowroomContactNumber(customer.getSalesMan().getShowroom().getContactNumber());
-            customerDetailsDTOS.add(customerDetailsDTO);
+            CustomerDetailDTO customerDetailDTO = new CustomerDetailDTO();
+            customerDetailDTO.setName(customer.getName());
+            customerDetailDTO.setCustomerAddress(customer.getAddress());
+            customerDetailDTO.setShowroomName(customer.getEmployee().getDepartment().getShowroom().getName());
+            customerDetailDTO.setUserEmail(customer.getUser().getEmail());
+            customerDetailDTOS.add(customerDetailDTO);
         }
-        return customerDetailsDTOS;
+        return customerDetailDTOS;
     }
-
-    public long count() {
+    public long retrieveCustomerCount() {
         return this.customerRepository.count();
     }
 
-    public List<String> getAllCustomerNames() {
-        return customerRepository.findAllCustomerNames();
+    public List<String> retrieveCustomerName() {
+        return customerRepository.findAllCustomerName();
     }
-
 }
 
 

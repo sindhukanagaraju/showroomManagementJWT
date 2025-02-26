@@ -10,54 +10,53 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1")
 public class CustomerController {
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(final CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/customer")
     public ResponseDTO createCustomer(@RequestBody final Customer customer) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.customerService.createCustomer(customer), Constant.CREATE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.CREATE, this.customerService.createCustomer(customer));
     }
 
-    @GetMapping("/retrieve/{id}")
+    @GetMapping("/customer/{id}")
     public ResponseDTO retrieveCustomerById(@PathVariable final Integer id) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.customerService.retrieveDepartmentById(id), Constant.RETRIEVE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.customerService.retrieveDepartmentById(id));
     }
 
-    @GetMapping("/retrieve")
+    @GetMapping("/customer/retrieve")
     public ResponseDTO retrieveCustomer() {
-        return new ResponseDTO(HttpStatus.OK.value(), this.customerService.retrieveCustomer(), Constant.RETRIEVE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.customerService.retrieveCustomer());
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/customer/{id}")
     public ResponseDTO updateCustomerById(@PathVariable final Integer id, @RequestBody final Customer customer) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.customerService.updateCustomerById(customer, id), Constant.UPDATE);
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.UPDATE, this.customerService.updateCustomerById(customer, id));
 
     }
 
-    @DeleteMapping("/remove/{id}")
-    public ResponseDTO removeCustomerById(@PathVariable("id") final Integer id) {
-        return new ResponseDTO(HttpStatus.OK.value(), this.customerService.removeCustomerById(id), Constant.REMOVE);
+    @DeleteMapping("/customer/{id}")
+    public ResponseDTO removeCustomerById(@PathVariable final Integer id) {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.REMOVE, this.customerService.removeCustomerById(id));
     }
 
-    @GetMapping("/customerdetails")
-    public ResponseDTO retrieveCustomerDetails() {
-        return new ResponseDTO(HttpStatus.OK.value(), this.customerService.retrieveCustomerDetails(), Constant.RETRIEVE);
+    @GetMapping("/customer/details")
+    public ResponseDTO retrieveCustomerDetail() {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.customerService.retrieveCustomerDetail());
     }
 
-    @GetMapping("/count")
-    public long getCustomerCount() {
-        return this.customerService.count();
+    @GetMapping("/customer/count")
+    public ResponseDTO retrieveCustomerCount() {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE,this.customerService.retrieveCustomerCount());
     }
 
-    @GetMapping("/name")
-
-    public List<String> getAllCustomerNames() {
-        return this.customerService.getAllCustomerNames();
+    @GetMapping("/customer/name")
+    public ResponseDTO retrieveCustomerName() {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE,this.customerService.retrieveCustomerName());
     }
 
 

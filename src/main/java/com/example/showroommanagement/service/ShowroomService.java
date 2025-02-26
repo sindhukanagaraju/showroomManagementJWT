@@ -1,5 +1,6 @@
 package com.example.showroommanagement.service;
 
+import com.example.showroommanagement.entity.Admin;
 import com.example.showroommanagement.entity.Showroom;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.ShowroomRepository;
@@ -8,24 +9,22 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ShowroomService {
 
     private final ShowroomRepository showroomRepository;
 
-    public ShowroomService(ShowroomRepository showroomRepository) {
+    public ShowroomService(final ShowroomRepository showroomRepository) {
         this.showroomRepository = showroomRepository;
     }
 
     @Transactional
     public Showroom createShowroom(final Showroom showroom) {
         return this.showroomRepository.save(showroom);
-
     }
 
-    @Transactional
+
     public Showroom retrieveShowroomById(final Integer id) {
         return this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
     }
@@ -34,9 +33,17 @@ public class ShowroomService {
         return this.showroomRepository.findAll();
     }
 
+    public Showroom patchById(final Showroom showroom, final Integer id){
+        final Showroom existingShowroom = this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        if (showroom.getName() != null) {
+            existingShowroom.setName(showroom.getName());
+        }
+        return this.showroomRepository.save(existingShowroom);
+    }
+
     @Transactional
     public Showroom updateShowroomById(final Showroom showroom, final Integer id) {
-        final Showroom existingShowroom = this.showroomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Data not found"));
+        final Showroom existingShowroom = this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         if (showroom.getName() != null) {
             existingShowroom.setName(showroom.getName());
         }
@@ -49,23 +56,20 @@ public class ShowroomService {
         if (showroom.getContactNumber() != null) {
             existingShowroom.setContactNumber(showroom.getContactNumber());
         }
-        if (showroom.getManager() != null) {
-            existingShowroom.setManager(showroom.getManager());
+        if (showroom.getAdmin() != null) {
+            existingShowroom.setAdmin(showroom.getAdmin());
         }
-        if (showroom.getBrand() != null) {
-            existingShowroom.setBrand(showroom.getBrand());
-        }
+
         return this.showroomRepository.save(existingShowroom);
     }
 
-    @Transactional
-    public Showroom removeShowroomById(final Integer id) {
-        if (id == null) {
-            throw new BadRequestServiceAlertException(Constant.DATA_NULL);
+    public String removeShowroomById(final Integer id) {
+        if (this.showroomRepository.existsById(id)) {
+            this.showroomRepository.deleteById(id);
+            return Constant.DELETE;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
-        Showroom showroom = this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        this.showroomRepository.deleteById(id);
-        return showroom;
     }
 }
 

@@ -1,7 +1,7 @@
 package com.example.showroommanagement.exception;
 
 import com.example.showroommanagement.dto.ResponseDTO;
-import com.example.showroommanagement.util.Constant;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,22 +11,30 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(BadRequestServiceAlertException.class)
-    public ResponseEntity<ResponseDTO> handleBadRequestServiceAlertException(final BadRequestServiceAlertException exception, WebRequest webRequest) {
-        ResponseDTO responseDTO = new ResponseDTO();
+    public ResponseEntity<ResponseDTO> handleBadRequestServiceAlertException(final BadRequestServiceAlertException exception, WebRequest request) {
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getDescription(false));
         exception.printStackTrace();
-        responseDTO.setMessage(exception.getMessage());
-        responseDTO.setStatusCode(400);
-        responseDTO.setData(Constant.NOT_FOUND);
-        return ResponseEntity.ok().body(responseDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserExistsException.class)
+    public ResponseEntity<ResponseDTO> handleUserExistsException(final UserExistsException exception, WebRequest request) {
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getDescription(false));
+        exception.printStackTrace();
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotExistException.class)
+    public ResponseEntity<ResponseDTO> handleUserNotExistException(final UserNotExistException exception, WebRequest request) {
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getDescription(false));
+        exception.printStackTrace();
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDTO> handleSecurityException(Exception exception) {
-        ResponseDTO responseDTO = new ResponseDTO();
+    public ResponseEntity<ResponseDTO> handleSecurityException(Exception exception, WebRequest request) {
         exception.printStackTrace();
-        responseDTO.setMessage(exception.getMessage());
-        responseDTO.setStatusCode(400);
-        responseDTO.setData(Constant.NOT_FOUND);
-        return ResponseEntity.ok().body(responseDTO);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 }

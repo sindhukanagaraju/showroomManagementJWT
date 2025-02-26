@@ -13,10 +13,11 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(final ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
+    @Transactional
     public Product createProduct(final Product product) {
         return this.productRepository.save(product);
     }
@@ -31,7 +32,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Product updateProductById(final Product product, Integer id) {
+    public Product updateProductById(final Product product, final Integer id) {
         final Product existingProduct = this.productRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         if (product.getId() != null) {
             existingProduct.setId(product.getId());
@@ -39,8 +40,8 @@ public class ProductService {
         if (product.getModel() != null) {
             existingProduct.setModel(product.getModel());
         }
-        if (product.getSalesMan() != null) {
-            existingProduct.setSalesMan(product.getSalesMan());
+        if (product.getEmployee() != null) {
+            existingProduct.setEmployee(product.getEmployee());
         }
         if (product.getPrice() != null) {
             existingProduct.setPrice(product.getPrice());
@@ -48,17 +49,23 @@ public class ProductService {
         if (product.getColour() != null) {
             existingProduct.setColour(product.getColour());
         }
-        return this.productRepository.save(existingProduct);
+        if (product.getBrand() != null) {
+            existingProduct.setBrand(product.getBrand());
+        }
+        if (product.getStock() != null) {
+            existingProduct.setStock(product.getStock());
+        }
 
+        return this.productRepository.save(existingProduct);
     }
 
-    public Product removeProductById(final Integer id) {
-        if (id == null) {
-            throw new BadRequestServiceAlertException(Constant.DATA_NULL);
+    public String removeProductById(final Integer id) {
+        if (this.productRepository.existsById(id)) {
+            this.productRepository.deleteById(id);
+            return Constant.DELETE;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
-        Product product = this.productRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        this.productRepository.deleteById(id);
-        return product;
     }
 }
 

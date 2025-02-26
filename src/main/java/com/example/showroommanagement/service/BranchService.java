@@ -1,0 +1,57 @@
+package com.example.showroommanagement.service;
+
+import com.example.showroommanagement.entity.Branch;
+import com.example.showroommanagement.exception.BadRequestServiceAlertException;
+import com.example.showroommanagement.repository.BranchRepository;
+import com.example.showroommanagement.util.Constant;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BranchService {
+
+    private final BranchRepository branchRepository;
+
+    public BranchService(final BranchRepository branchRepository) {
+        this.branchRepository = branchRepository;
+    }
+
+    @Transactional
+    public Branch createBranch(final Branch branch) {
+        return this.branchRepository.save(branch);
+    }
+
+    public Branch retrieveBranchById(final Integer id) {
+        return this.branchRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+    }
+
+    public List<Branch> retrieveBranch() {
+        return this.branchRepository.findAll();
+    }
+
+    @Transactional
+    public Branch updateBranchById(final Branch branch, final Integer id) {
+        final Branch existingBranch = this.branchRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        if (branch.getId() != null) {
+            existingBranch.setId(branch.getId());
+        }
+        if (branch.getBranch() != null) {
+            existingBranch.setBranch(branch.getBranch());
+        }
+        if (branch.getShowroom() != null) {
+            existingBranch.setShowroom(branch.getShowroom());
+        }
+        return this.branchRepository.save(existingBranch);
+    }
+
+    public String removeBranchById(final Integer id) {
+        if (this.branchRepository.existsById(id)) {
+            this.branchRepository.deleteById(id);
+            return Constant.DELETE;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
+        }
+    }
+}

@@ -7,14 +7,16 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class SalesDetailsDTO {
+public class SaleDetailDTO {
     private String showroomName;
-    private String showroomBrand;
+    private String brandName;
     private String productModel;
     private Double productPrice;
-    private String salesmanName;
-    private String salesManagerName;
+    private String employeeName;
+    private String departmentName;
+    private String branchName;
     private String customerName;
     private String customerAddress;
     private Date salesDate;
+
 }

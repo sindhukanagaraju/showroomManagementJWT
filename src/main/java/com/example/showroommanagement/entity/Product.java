@@ -1,9 +1,13 @@
 package com.example.showroommanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -24,9 +28,16 @@ public class Product {
     @Column(name = "colour")
     private String colour;
 
+    @Column(name = "stock")
+    private Integer stock;
+
     @ManyToOne()
-    @JoinColumn(name = "salesman_id")
-    private SalesMan salesMan;
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    @ManyToOne()
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
 
 }

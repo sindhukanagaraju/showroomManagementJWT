@@ -1,15 +1,18 @@
 package com.example.showroommanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name = "salesman")
-public class SalesMan {
+@Table(name = "Employee")
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -26,7 +29,15 @@ public class SalesMan {
     private String address;
 
     @ManyToOne()
-    @JoinColumn(name = "showroom_id")
-    private Showroom showroom;
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    @ManyToOne()
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
+    @ManyToOne()
+    @JoinColumn(name = "user")
+    private User user;
 
 }

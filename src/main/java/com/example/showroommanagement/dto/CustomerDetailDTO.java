@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CustomerDetailsDTO {
-    private String customerName;
+public class CustomerDetailDTO {
+    private String Name;
+    private String userEmail;
     private String customerAddress;
-    private String salesManName;
     private String showroomName;
-    private String showroomContactNumber;
+
 
 }
