@@ -29,6 +29,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @Column(name = "date_time")
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }
