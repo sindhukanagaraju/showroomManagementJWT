@@ -1,5 +1,6 @@
 package com.example.showroommanagement.service;
 
+import com.example.showroommanagement.entity.Admin;
 import com.example.showroommanagement.entity.Branch;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.BranchRepository;
@@ -46,12 +47,9 @@ public class BranchService {
         return this.branchRepository.save(existingBranch);
     }
 
-    public String removeBranchById(final Integer id) {
-        if (this.branchRepository.existsById(id)) {
-            this.branchRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public Branch removeBranchById(final Integer id) {
+        Branch branch = this.branchRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.branchRepository.deleteById(id);
+        return branch;
     }
 }

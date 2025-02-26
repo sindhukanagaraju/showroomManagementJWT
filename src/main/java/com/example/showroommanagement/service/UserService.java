@@ -1,5 +1,6 @@
 package com.example.showroommanagement.service;
 
+import com.example.showroommanagement.entity.Showroom;
 import com.example.showroommanagement.entity.User;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.exception.UserExistsException;
@@ -67,12 +68,9 @@ public class UserService {
         return this.userRepository.save(existingUser);
     }
 
-    public String removeUserById(final Integer id) {
-        if (this.userRepository.existsById(id)) {
-            this.userRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public User removeUserById(final Integer id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.userRepository.deleteById(id);
+        return user;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.entity.Admin;
+import com.example.showroommanagement.entity.SaleDetail;
 import com.example.showroommanagement.entity.Showroom;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.ShowroomRepository;
@@ -63,13 +64,10 @@ public class ShowroomService {
         return this.showroomRepository.save(existingShowroom);
     }
 
-    public String removeShowroomById(final Integer id) {
-        if (this.showroomRepository.existsById(id)) {
-            this.showroomRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public Showroom removeShowroomById(final Integer id) {
+        Showroom showroom = this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.showroomRepository.deleteById(id);
+        return showroom;
     }
 }
 

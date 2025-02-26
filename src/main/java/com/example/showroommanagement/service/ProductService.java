@@ -59,13 +59,10 @@ public class ProductService {
         return this.productRepository.save(existingProduct);
     }
 
-    public String removeProductById(final Integer id) {
-        if (this.productRepository.existsById(id)) {
-            this.productRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public Product removeProductById(final Integer id) {
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.productRepository.deleteById(id);
+        return product;
     }
 }
 

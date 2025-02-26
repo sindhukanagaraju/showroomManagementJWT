@@ -35,8 +35,8 @@ public class DepartmentService {
     @Transactional
     public Department updateDepartmentById(final Department department, final Integer id) {
         final Department existingDepartment = this.departmentRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        if (department.getDepartmentName() != null) {
-            existingDepartment.setDepartmentName(department.getDepartmentName());
+        if (department.getName() != null) {
+            existingDepartment.setName(department.getName());
         }
         if (department.getId() != null) {
             existingDepartment.setId(department.getId());
@@ -48,13 +48,10 @@ public class DepartmentService {
         return this.departmentRepository.save(existingDepartment);
     }
 
-    public String removeDepartmentById(final Integer id) {
-        if (this.departmentRepository.existsById(id)) {
-            this.departmentRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public Department removeDepartmentById(final Integer id) {
+        Department branch = this.departmentRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.departmentRepository.deleteById(id);
+        return branch;
     }
 }
 

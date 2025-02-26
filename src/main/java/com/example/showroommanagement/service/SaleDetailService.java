@@ -2,6 +2,7 @@ package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.dto.PaginationDTO;
 import com.example.showroommanagement.dto.SaleDetailDTO;
+import com.example.showroommanagement.entity.Product;
 import com.example.showroommanagement.entity.SaleDetail;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.SaleDetailRepository;
@@ -55,13 +56,10 @@ public class SaleDetailService {
         return this.saleDetailRepository.save(existingSalesDetails);
     }
 
-    public String removeSaleDetailById(final Integer id) {
-        if (this.saleDetailRepository.existsById(id)) {
-            this.saleDetailRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public SaleDetail removeSaleDetailById(final Integer id) {
+        SaleDetail saleDetail = this.saleDetailRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.saleDetailRepository.deleteById(id);
+        return saleDetail;
     }
 
     public List<SaleDetailDTO> retrieveSaleDetail(final String showroomName, final String productName) {
@@ -75,7 +73,7 @@ public class SaleDetailService {
             saleDetailDTO.setProductPrice(salesDetails.getProduct().getPrice());
             saleDetailDTO.setEmployeeName(salesDetails.getProduct().getEmployee().getName());
             saleDetailDTO.setSalesDate(salesDetails.getSalesDate());
-            saleDetailDTO.setDepartmentName(salesDetails.getProduct().getEmployee().getDepartment().getDepartmentName());
+            saleDetailDTO.setDepartmentName(salesDetails.getProduct().getEmployee().getDepartment().getName());
             saleDetailDTO.setCustomerName(salesDetails.getCustomer().getName());
             saleDetailDTO.setCustomerAddress(salesDetails.getCustomer().getAddress());
             saleDetailDTO.setBranchName(salesDetails.getProduct().getEmployee().getBranch().getBranch());

@@ -1,6 +1,7 @@
 package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.dto.CustomerDetailDTO;
+import com.example.showroommanagement.entity.Branch;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.CustomerRepository;
@@ -55,13 +56,10 @@ public class CustomerService {
         return this.customerRepository.save(existingCustomer);
     }
 
-    public String removeCustomerById(final Integer id) {
-        if (this.customerRepository.existsById(id)) {
-            this.customerRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public Customer removeCustomerById(final Integer id) {
+        Customer customer = this.customerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.customerRepository.deleteById(id);
+        return customer;
     }
 
     public List<CustomerDetailDTO> retrieveCustomerDetail() {

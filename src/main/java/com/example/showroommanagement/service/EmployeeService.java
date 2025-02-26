@@ -1,6 +1,7 @@
 package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.dto.EmployeeDetailDTO;
+import com.example.showroommanagement.entity.Department;
 import com.example.showroommanagement.entity.Employee;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.EmployeeRepository;
@@ -60,13 +61,10 @@ public class EmployeeService {
         return this.employeeRepository.save(existingEmployee);
     }
 
-    public String removeEmployeeById(final Integer id) {
-        if (this.employeeRepository.existsById(id)) {
-            this.employeeRepository.deleteById(id);
-            return Constant.DELETE;
-        } else {
-            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
-        }
+    public Employee removeEmployeeById(final Integer id) {
+        Employee employee = this.employeeRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.employeeRepository.deleteById(id);
+        return employee;
     }
 
     public List<EmployeeDetailDTO> retrieveEmployeeDetail() {
@@ -76,7 +74,7 @@ public class EmployeeService {
             EmployeeDetailDTO employeeDetailDTO = new EmployeeDetailDTO();
             employeeDetailDTO.setName(employee.getName());
             employeeDetailDTO.setSalary(employee.getSalary());
-            employeeDetailDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+            employeeDetailDTO.setDepartmentName(employee.getDepartment().getName());
             employeeDetailDTO.setShowroomName(employee.getDepartment().getShowroom().getName());
             employeeDetailDTO.setBranchName(employee.getBranch().getBranch());
             employeeDetailDTO.setUserEmail(employee.getUser().getEmail());

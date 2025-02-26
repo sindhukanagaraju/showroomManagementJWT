@@ -19,7 +19,7 @@ public class Department {
     private Integer id;
 
     @Column(name = "department_name")
-    private String departmentName;
+    private String name;
 
     @ManyToOne()
     @JoinColumn(name = "showroom_id")
