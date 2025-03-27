@@ -20,4 +20,5 @@ public class Constant {
     public static final String SIGN_UP = "signup Successfully";
     public static final String SIGN_IN = "signin Successfully";
     public static final String EXIST_MAIL = "email already exist";
+    public static final String TOKEN = "Token Generated";
 }

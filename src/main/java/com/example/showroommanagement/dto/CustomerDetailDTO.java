@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CustomerDetailDTO {
     private String Name;
-    private String userEmail;
+  //  private String userEmail;
     private String customerAddress;
     private String showroomName;
 

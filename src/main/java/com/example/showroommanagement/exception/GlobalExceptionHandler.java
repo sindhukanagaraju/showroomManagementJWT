@@ -10,6 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(BadRequestServiceAlertException.class)
     public ResponseEntity<ResponseDTO> handleBadRequestServiceAlertException(final BadRequestServiceAlertException exception, WebRequest request) {
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getDescription(false));

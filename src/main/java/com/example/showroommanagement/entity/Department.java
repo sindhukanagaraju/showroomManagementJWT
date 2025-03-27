@@ -18,10 +18,9 @@ public class Department {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "department_name")
+    @Column(name = "name")
     private String name;
 
-    @ManyToOne()
-    @JoinColumn(name = "showroom_id")
+    @ManyToOne
     private Showroom showroom;
 }

@@ -37,8 +37,8 @@ public class AdminService {
         if (admin.getName() != null) {
             existingAdmin.setName(admin.getName());
         }
-        if (admin.getUser() != null) {
-            existingAdmin.setUser(admin.getUser());
+        if (admin.getShowroom() != null) {
+            existingAdmin.setShowroom(admin.getShowroom());
         }
         return this.adminRepository.save(existingAdmin);
     }

@@ -55,9 +55,9 @@ public class EmployeeService {
         if (employee.getBranch() != null) {
             existingEmployee.setBranch(employee.getBranch());
         }
-        if (employee.getUser() != null) {
-            existingEmployee.setUser(employee.getUser());
-        }
+//        if (employee.getUser() != null) {
+//            existingEmployee.setUser(employee.getUser());
+//        }
         return this.employeeRepository.save(existingEmployee);
     }
 
@@ -77,7 +77,7 @@ public class EmployeeService {
             employeeDetailDTO.setDepartmentName(employee.getDepartment().getName());
             employeeDetailDTO.setShowroomName(employee.getDepartment().getShowroom().getName());
             employeeDetailDTO.setBranchName(employee.getBranch().getBranch());
-            employeeDetailDTO.setUserEmail(employee.getUser().getEmail());
+           // employeeDetailDTO.setUserEmail(employee.getUser().getEmail());
             employeeDetailDTOS.add(employeeDetailDTO);
         }
         return employeeDetailDTOS;

@@ -50,9 +50,9 @@ public class CustomerService {
         if (customer.getAddress() != null) {
             existingCustomer.setAddress(customer.getAddress());
         }
-        if (customer.getUser() != null) {
-            existingCustomer.setUser(customer.getUser());
-        }
+//        if (customer.getUser() != null) {
+//            existingCustomer.setUser(customer.getUser());
+//        }
         return this.customerRepository.save(existingCustomer);
     }
 
@@ -70,7 +70,7 @@ public class CustomerService {
             customerDetailDTO.setName(customer.getName());
             customerDetailDTO.setCustomerAddress(customer.getAddress());
             customerDetailDTO.setShowroomName(customer.getEmployee().getDepartment().getShowroom().getName());
-            customerDetailDTO.setUserEmail(customer.getUser().getEmail());
+//            customerDetailDTO.setUserEmail(customer.getUser().getEmail());
             customerDetailDTOS.add(customerDetailDTO);
         }
         return customerDetailDTOS;

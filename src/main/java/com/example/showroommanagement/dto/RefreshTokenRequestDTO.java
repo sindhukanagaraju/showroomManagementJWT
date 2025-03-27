@@ -1,6 +1,6 @@
 package com.example.showroommanagement.dto;
 
-public class RefreshTokenDTO {
+public class RefreshTokenRequestDTO {
     private String token;
 
     public String getToken() {

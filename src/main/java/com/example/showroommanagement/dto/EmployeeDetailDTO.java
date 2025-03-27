@@ -8,7 +8,7 @@ import lombok.Setter;
 public class EmployeeDetailDTO {
     private String Name;
     private Double Salary;
-    private String userEmail;
+    //private String userEmail;
     private String branchName;
     private String departmentName;
     private String showroomName;

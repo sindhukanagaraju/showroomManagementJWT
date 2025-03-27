@@ -1,76 +1,110 @@
 package com.example.showroommanagement.service;
 
-import com.example.showroommanagement.entity.Showroom;
+import com.example.showroommanagement.dto.JwtAuthenticationResponseDTO;
+import com.example.showroommanagement.dto.RefreshTokenRequestDTO;
+import com.example.showroommanagement.dto.SignInDTO;
+import com.example.showroommanagement.dto.SignUpDTO;
 import com.example.showroommanagement.entity.User;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
-import com.example.showroommanagement.exception.UserExistsException;
-import com.example.showroommanagement.exception.UserNotExistException;
 import com.example.showroommanagement.repository.UserRepository;
 import com.example.showroommanagement.util.Constant;
-import jakarta.transaction.Transactional;
+import com.example.showroommanagement.util.UserType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    @Autowired
+    private JWTService jwtService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
-    public UserService(final UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    @Transactional
-
-    public User createSignUp(final User user) {
-        User existingUser = this.userRepository.findByEmail(user.getEmail());
-        if (existingUser != null) {
-            throw new UserExistsException(Constant.EXIST_MAIL);
+    public User adminCreate(final SignUpDTO signUpDTO) {
+        final User user = new User();
+        user.setName(signUpDTO.getName());
+        user.setEmail(signUpDTO.getEmail());
+        user.setPassword(encoder.encode(signUpDTO.getPassword()));
+        user.setUserType(UserType.ADMIN);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new BadRequestServiceAlertException("Account Already exists");
         }
         return this.userRepository.save(user);
     }
 
-    @Transactional
-    public User createSignIn(final User user) {
-        return userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()).orElseThrow(() -> new UserNotExistException("Invalid email or password. Please try again."));
+    public User employeeCreate(final SignUpDTO signUpDTO) {
+        final User user = new User();
+        user.setName(signUpDTO.getName());
+        user.setEmail(signUpDTO.getEmail());
+        user.setPassword(encoder.encode(signUpDTO.getPassword()));
+        user.setUserType(UserType.EMPLOYEE);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new BadRequestServiceAlertException("Account Already exists");
+        }
+        return this.userRepository.save(user);
     }
 
-    public User retrieveUserById(final Integer id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+    public User customerCreate(final SignUpDTO signUpDTO) {
+        final User user = new User();
+        user.setName(signUpDTO.getName());
+        user.setEmail(signUpDTO.getEmail());
+        user.setPassword(encoder.encode(signUpDTO.getPassword()));
+        user.setUserType(UserType.CUSTOMER);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new BadRequestServiceAlertException("Account Already exists");
+        }
+        return this.userRepository.save(user);
     }
 
-    public List<User> retrieveUser() {
+    public JwtAuthenticationResponseDTO signIn(SignInDTO signInDTO) {
+        final User user = this.userRepository.findByEmail(signInDTO.getEmail()).orElseThrow(() -> new RuntimeException("Incorrect EmailId"));
+        if (!encoder.matches(signInDTO.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Incorrect Password");
+        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDTO.getEmail(), signInDTO.getPassword()));
+        final String jwt = jwtService.generateToken(user);
+        final String refreshToken=jwtService.generateRefreshToken(user);
+        final JwtAuthenticationResponseDTO jwtAuthResp=new JwtAuthenticationResponseDTO();
+        jwtAuthResp.setToken(jwt);
+        jwtAuthResp.setRefreshToken(refreshToken);
+        return jwtAuthResp;
+    }
+    public JwtAuthenticationResponseDTO refreshToken(final RefreshTokenRequestDTO refreshTokenRequestDTO) {
+        String userEmail = jwtService.extractUserName(refreshTokenRequestDTO.getToken());
+
+        User user = userRepository.findByEmail(userEmail).orElseThrow();
+
+        if (jwtService.isTokenValid(refreshTokenRequestDTO.getToken(), user)) {
+            var jwt = jwtService.generateToken(user);
+
+            JwtAuthenticationResponseDTO jwtAuthenticationResponse = new JwtAuthenticationResponseDTO();
+            jwtAuthenticationResponse.setToken(jwt);
+            jwtAuthenticationResponse.setRefreshToken(refreshTokenRequestDTO.getToken());
+            return jwtAuthenticationResponse;
+        }
+        throw new RuntimeException("Invalid Refresh Token");
+    }
+
+    public User getById(final int id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new RuntimeException(Constant.USER_NOT_FOUND));
+    }
+
+    public List<User> findByAllAndId() {
         return this.userRepository.findAll();
     }
 
-    @Transactional
-    public User updateUserById(final User user, final Integer id) {
-        final User existingUser = this.userRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        if (user.getName() != null) {
-            existingUser.setName(user.getName());
-        }
-        if (user.getId() != null) {
-            existingUser.setId(user.getId());
-        }
-        if (user.getUserType() != null) {
-            existingUser.setUserType(user.getUserType());
-        }
-        if (user.getEmail() != null) {
-            existingUser.setEmail(user.getEmail());
-        }
-        if (user.getPassword() != null) {
-            existingUser.setPassword(user.getPassword());
-        }
-        if (user.getCreatedAt() != null) {
-            existingUser.setCreatedAt(user.getCreatedAt());
-        }
-
-        return this.userRepository.save(existingUser);
+    public String deleteById(final int id) {
+        final User user = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found for this id : " + id));
+        this.userRepository.delete(user);
+        return Constant.REMOVE;
     }
 
-    public User removeUserById(final Integer id) {
-        User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        this.userRepository.deleteById(id);
-        return user;
-    }
 }

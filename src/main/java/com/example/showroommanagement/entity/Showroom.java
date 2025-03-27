@@ -28,7 +28,7 @@ public class Showroom {
     @Column(name = "contact_number")
     private String contactNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+//    @ManyToOne
+//    @JoinColumn(name = "admin_id")
+//    private Admin admin;
 }

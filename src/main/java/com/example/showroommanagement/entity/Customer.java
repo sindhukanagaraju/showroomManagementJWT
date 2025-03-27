@@ -29,7 +29,7 @@ public class Customer {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @ManyToOne()
-    @JoinColumn(name = "user")
-    private User user;
+//    @ManyToOne()
+//    @JoinColumn(name = "user")
+//    private User user;
 }

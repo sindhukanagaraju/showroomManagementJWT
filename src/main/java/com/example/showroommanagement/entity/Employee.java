@@ -36,8 +36,8 @@ public class Employee {
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
-    @ManyToOne()
-    @JoinColumn(name = "user")
-    private User user;
+//    @ManyToOne()
+//    @JoinColumn(name = "user")
+//    private User user;
 
 }
