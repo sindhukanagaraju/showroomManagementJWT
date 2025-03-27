@@ -64,7 +64,7 @@ public class ShowroomService {
     }
 
     public Showroom removeShowroomById(final Integer id) {
-        Showroom showroom = this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        final Showroom showroom = this.showroomRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         this.showroomRepository.deleteById(id);
         return showroom;
     }

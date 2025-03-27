@@ -24,12 +24,9 @@ public class SaleDetail {
     @Column(name = "date")
     private Date salesDate;
 
-    @ManyToOne()
-    @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
-    @ManyToOne()
-    @JoinColumn(name = "customer_id")
+    @ManyToOne
     private Customer customer;
-
 }

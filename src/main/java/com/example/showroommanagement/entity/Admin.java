@@ -16,10 +16,6 @@ public class Admin {
     @Column(name = "name")
     private String name;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", unique = true)
-//    private User user;
     @ManyToOne
-    @JoinColumn(name = "showroom_id", unique = true)
     private Showroom showroom;
 }

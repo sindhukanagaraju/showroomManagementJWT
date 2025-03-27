@@ -31,14 +31,13 @@ public class JWTService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public String generateToken(final User user) {
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("name",user.getName());
-        claims.put("Role",user.getUserType());
+        claims.put("name", user.getName());
+        claims.put("Role", user.getUserType());
         return Jwts.builder()
                 .claims()
                 .add(claims)
@@ -48,7 +47,6 @@ public class JWTService {
                 .and()
                 .signWith(getKey())
                 .compact();
-
     }
 
     public String generateRefreshToken(final User user) {
@@ -94,7 +92,6 @@ public class JWTService {
     private boolean isTokenExpired(String token) {
         System.err.println(new Date());
         return extractExpiration(token).before(new Date());
-
     }
 
     public boolean isTokenValid(final String token, final UserDetails userDetails) {
@@ -105,6 +102,4 @@ public class JWTService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-
-
 }

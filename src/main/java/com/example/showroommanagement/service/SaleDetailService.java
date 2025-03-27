@@ -2,7 +2,6 @@ package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.dto.PaginationDTO;
 import com.example.showroommanagement.dto.SaleDetailDTO;
-import com.example.showroommanagement.entity.Product;
 import com.example.showroommanagement.entity.SaleDetail;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.SaleDetailRepository;
@@ -57,7 +56,7 @@ public class SaleDetailService {
     }
 
     public SaleDetail removeSaleDetailById(final Integer id) {
-        SaleDetail saleDetail = this.saleDetailRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        final SaleDetail saleDetail = this.saleDetailRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         this.saleDetailRepository.deleteById(id);
         return saleDetail;
     }
@@ -87,8 +86,8 @@ public class SaleDetailService {
             throw new BadRequestServiceAlertException("Page index and size must be greater than zero");
         }
         Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
-         Page<SaleDetail> page = this.saleDetailRepository.findAll(pageable);
-         return new PaginationDTO(page.getTotalPages(),page.getTotalElements(),page.getSize(),page.getContent());
+        Page<SaleDetail> page = this.saleDetailRepository.findAll(pageable);
+        return new PaginationDTO(page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getContent());
     }
 
     public Page<SaleDetail> getPaginatedData(final int pageIndex, final int pageSize, final String sorting, final boolean direction) {
@@ -102,7 +101,7 @@ public class SaleDetailService {
     public List<SaleDetail> findByModel(String keyword) {
         List<SaleDetail> saleDetails = this.saleDetailRepository.findByModel(keyword);
         if (saleDetails.isEmpty()) {
-            throw new BadRequestServiceAlertException("no data found");
+            throw new BadRequestServiceAlertException(Constant.NOT_FOUND);
         }
         return saleDetails;
     }
@@ -114,7 +113,7 @@ public class SaleDetailService {
         Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
         Page<SaleDetail> saleDetailsPage = this.saleDetailRepository.searchByColour(keyword, pageable);
         if (saleDetailsPage.isEmpty()) {
-            throw new BadRequestServiceAlertException("no data found");
+            throw new BadRequestServiceAlertException(Constant.NOT_FOUND);
         }
         return saleDetailsPage;
     }

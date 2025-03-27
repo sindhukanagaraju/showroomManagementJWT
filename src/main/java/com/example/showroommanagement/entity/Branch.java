@@ -22,7 +22,6 @@ public class Branch {
     @Column(name = "branch")
     private String branch;
 
-    @ManyToOne()
-    @JoinColumn(name = "showroom_id")
+    @ManyToOne
     private Showroom showroom;
 }

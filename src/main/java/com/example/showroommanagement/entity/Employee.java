@@ -28,16 +28,9 @@ public class Employee {
     @Column(name = "Address")
     private String address;
 
-    @ManyToOne()
-    @JoinColumn(name = "department_id")
+    @ManyToOne
     private Department department;
 
     @ManyToOne()
-    @JoinColumn(name = "branch_id")
     private Branch branch;
-
-//    @ManyToOne()
-//    @JoinColumn(name = "user")
-//    private User user;
-
 }

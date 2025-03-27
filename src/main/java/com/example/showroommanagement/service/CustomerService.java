@@ -1,7 +1,6 @@
 package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.dto.CustomerDetailDTO;
-import com.example.showroommanagement.entity.Branch;
 import com.example.showroommanagement.entity.Customer;
 import com.example.showroommanagement.exception.BadRequestServiceAlertException;
 import com.example.showroommanagement.repository.CustomerRepository;
@@ -24,7 +23,6 @@ public class CustomerService {
     @Transactional
     public Customer createCustomer(final Customer customer) {
         return this.customerRepository.save(customer);
-
     }
 
     public Customer retrieveDepartmentById(final Integer id) {
@@ -50,14 +48,11 @@ public class CustomerService {
         if (customer.getAddress() != null) {
             existingCustomer.setAddress(customer.getAddress());
         }
-//        if (customer.getUser() != null) {
-//            existingCustomer.setUser(customer.getUser());
-//        }
         return this.customerRepository.save(existingCustomer);
     }
 
     public Customer removeCustomerById(final Integer id) {
-        Customer customer = this.customerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        final Customer customer = this.customerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         this.customerRepository.deleteById(id);
         return customer;
     }
@@ -70,11 +65,11 @@ public class CustomerService {
             customerDetailDTO.setName(customer.getName());
             customerDetailDTO.setCustomerAddress(customer.getAddress());
             customerDetailDTO.setShowroomName(customer.getEmployee().getDepartment().getShowroom().getName());
-//            customerDetailDTO.setUserEmail(customer.getUser().getEmail());
             customerDetailDTOS.add(customerDetailDTO);
         }
         return customerDetailDTOS;
     }
+
     public long retrieveCustomerCount() {
         return this.customerRepository.count();
     }

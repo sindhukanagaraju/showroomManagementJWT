@@ -38,13 +38,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseDTO getById(@PathVariable final int id) {
-        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.userService.getById(id));
+    public ResponseDTO retrieveUserById(@PathVariable final int id) {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.userService.retrieveUserById(id));
     }
 
     @GetMapping("/user")
-    public ResponseDTO findByAll() {
-        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.userService.findByAllAndId());
+    public ResponseDTO retrieveUser() {
+        return new ResponseDTO(HttpStatus.OK.value(), Constant.RETRIEVE, this.userService.retrieveUser());
     }
 
     @DeleteMapping("/user/{id}")

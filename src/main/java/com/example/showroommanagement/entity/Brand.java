@@ -22,7 +22,6 @@ public class Brand {
     @Column(name = "brand")
     private String brand;
 
-    @ManyToOne()
-    @JoinColumn(name = "showroom_id")
+    @ManyToOne
     private Showroom showroom;
 }

@@ -35,7 +35,7 @@ public class UserService {
         user.setPassword(encoder.encode(signUpDTO.getPassword()));
         user.setUserType(UserType.ADMIN);
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestServiceAlertException("Account Already exists");
+            throw new BadRequestServiceAlertException(Constant.EXIST_ACCOUNT);
         }
         return this.userRepository.save(user);
     }
@@ -47,7 +47,7 @@ public class UserService {
         user.setPassword(encoder.encode(signUpDTO.getPassword()));
         user.setUserType(UserType.EMPLOYEE);
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestServiceAlertException("Account Already exists");
+            throw new BadRequestServiceAlertException(Constant.EXIST_ACCOUNT);
         }
         return this.userRepository.save(user);
     }
@@ -59,24 +59,25 @@ public class UserService {
         user.setPassword(encoder.encode(signUpDTO.getPassword()));
         user.setUserType(UserType.CUSTOMER);
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestServiceAlertException("Account Already exists");
+            throw new BadRequestServiceAlertException(Constant.EXIST_ACCOUNT);
         }
         return this.userRepository.save(user);
     }
 
     public JwtAuthenticationResponseDTO signIn(SignInDTO signInDTO) {
-        final User user = this.userRepository.findByEmail(signInDTO.getEmail()).orElseThrow(() -> new RuntimeException("Incorrect EmailId"));
+        final User user = this.userRepository.findByEmail(signInDTO.getEmail()).orElseThrow(() -> new RuntimeException(Constant.INCORRECT_EMAIL));
         if (!encoder.matches(signInDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Incorrect Password");
+            throw new RuntimeException(Constant.INCORRECT_PASSWORD);
         }
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDTO.getEmail(), signInDTO.getPassword()));
         final String jwt = jwtService.generateToken(user);
-        final String refreshToken=jwtService.generateRefreshToken(user);
-        final JwtAuthenticationResponseDTO jwtAuthResp=new JwtAuthenticationResponseDTO();
+        final String refreshToken = jwtService.generateRefreshToken(user);
+        final JwtAuthenticationResponseDTO jwtAuthResp = new JwtAuthenticationResponseDTO();
         jwtAuthResp.setToken(jwt);
         jwtAuthResp.setRefreshToken(refreshToken);
         return jwtAuthResp;
     }
+
     public JwtAuthenticationResponseDTO refreshToken(final RefreshTokenRequestDTO refreshTokenRequestDTO) {
         String userEmail = jwtService.extractUserName(refreshTokenRequestDTO.getToken());
 
@@ -90,21 +91,20 @@ public class UserService {
             jwtAuthenticationResponse.setRefreshToken(refreshTokenRequestDTO.getToken());
             return jwtAuthenticationResponse;
         }
-        throw new RuntimeException("Invalid Refresh Token");
+        throw new BadRequestServiceAlertException(Constant.INVALID_TOKEN);
     }
 
-    public User getById(final int id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new RuntimeException(Constant.USER_NOT_FOUND));
+    public User retrieveUserById(final int id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.USER_NOT_FOUND));
     }
 
-    public List<User> findByAllAndId() {
+    public List<User> retrieveUser() {
         return this.userRepository.findAll();
     }
 
-    public String deleteById(final int id) {
-        final User user = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found for this id : " + id));
-        this.userRepository.delete(user);
-        return Constant.REMOVE;
+    public User deleteById(final int id) {
+        final User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        this.userRepository.deleteById(id);
+        return user;
     }
-
 }

@@ -26,10 +26,5 @@ public class Customer {
     private String address;
 
     @ManyToOne()
-    @JoinColumn(name = "employee_id")
     private Employee employee;
-
-//    @ManyToOne()
-//    @JoinColumn(name = "user")
-//    private User user;
 }

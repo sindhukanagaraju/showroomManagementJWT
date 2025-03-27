@@ -31,13 +31,9 @@ public class Product {
     @Column(name = "stock")
     private Integer stock;
 
-    @ManyToOne()
-    @JoinColumn(name = "employee_id")
+    @ManyToOne
     private Employee employee;
 
-    @ManyToOne()
-    @JoinColumn(name = "brand_id")
+    @ManyToOne
     private Brand brand;
-
-
 }

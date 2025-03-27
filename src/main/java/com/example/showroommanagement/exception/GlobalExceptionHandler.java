@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDTO> handleSecurityException(Exception exception, WebRequest request) {
+    public ResponseEntity<ResponseDTO> handleSecurityException(final Exception exception, WebRequest request) {
         exception.printStackTrace();
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);

@@ -1,6 +1,7 @@
 package com.example.showroommanagement.service;
 
 import com.example.showroommanagement.repository.UserRepository;
+import com.example.showroommanagement.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return this.userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: "));
+        return this.userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(Constant.USER_NOT_FOUND));
     }
 }
